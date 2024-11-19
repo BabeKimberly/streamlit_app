@@ -1,9 +1,17 @@
-
+import os
 import pickle
 import streamlit as st
+from streamlit_option_menu import option_menu
+
+# Set page configuration
+st.set_page_config(page_title="Preeclampsia prediction",
+                   layout="wide",
+                   page_icon="🧑‍⚕️")
+# getting the working directory of the main.py
+working_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Load the saved model
-loaded_model = pickle.load(open('C:/Users/LENOVO/Documents/dissertation research/Predictive Model/trained_model.sav', 'rb'))
+diabetes_model = pickle.load(open(f'{working_dir}/saved_models/trained_model.sav', 'rb'))
 
 def preeclampsia_prediction(age, gest_age, diabp, sysbp, height, weight, bmi, fam_htn, htn, diabetes):
     # Simple prediction logic for demonstration
