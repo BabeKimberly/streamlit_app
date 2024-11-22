@@ -68,7 +68,7 @@ if st.button('Test Results'):
 
 if preeclampsia_prediction[0] == 1:
             preeclampsia_diagnosis = 'The person is diabetic'
-    else:
+else:
             preeclampsia_diagnosis = 'The person is not diabetic'
 
     st.success(preeclampsia_diagnosis)
