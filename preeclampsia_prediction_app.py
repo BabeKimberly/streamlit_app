@@ -115,7 +115,7 @@ def specialist_dashboard():
 
     # Initialize prediction variables
     preeclampsia_diagnosis = ''
-    preeclampsia_prediction = None
+    preeclampsia_prediction = preeclampsia_model.predict([user_input])
 
     # Validate that required patient and specialist fields are filled
     if st.button('Test Results'):
@@ -200,6 +200,7 @@ def user_dashboard():
             user_input = [float(x) if x != '' else 0.0 for x in user_input]
 
             # Prediction
+
             preeclampsia_prediction = preeclampsia_model.predict([user_input])
 
         except ValueError as e:
