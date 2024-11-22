@@ -79,9 +79,9 @@ def preeclampsia_prediction(age, gest_age, diabp, sysbp, height, weight, bmi, fa
   # Simple prediction logic for demonstration
  if age and int(age) > 35 and sysbp and int(sysbp) > 140 and fam_htn == "Yes":
         return "The person is at high risk of Preeclampsia."
-    return "The person is not at high risk of Preeclampsia."
+ return "The person is not at high risk of Preeclampsia."
 
-def main():
+ def main():
     st.title('Preeclampsia Prediction Web Application')
 
     age = st.text_input('How old are you?')
