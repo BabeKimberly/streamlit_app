@@ -27,27 +27,27 @@ if selected == 'Specialist':
   col1, col2, col3, col4, col5 = st.columns(3)
   with col1:
         hb = st.text_input('Hemoglobin value')
-    with col2:
+  with col2:
         pcv = st.text_input('PCV value')
-    with col3:
+  with col3:
         tsh = st.text_input('Thyroid stimulating Hormone')
-    with col4:
+  with col4:
         Platelet = st.text_input('Platelet count')
-    with col5:
+  with col5:
         Creatinine = st.text_input('Creatinine Levels')
-    with col1:
+  with col1:
         plgf_sflt = st.text_input('plgf_sflt value')
-    with col2:
+  with col2:
         pp_13 = st.text_input('pp_13 value')
-    with col3:
+  with col3:
         glycerides = st.text_input('Glycerides value')
-    with col4:
+  with col4:
         seng = st.text_input('Soluble Endoglin (sEng) value')
-    with col5:
+  with col5:
         cysc = st.text_input('Cystatin C (cysC)')
-    with col1:
+  with col1:
         diabetes = st.text_input('Is patient diabetic?')  
-    with col2:
+  with col2:
         psp_art = st.text_input('Systolic Pulmonary Artery Pressure value')
      
         # Convert categorical features to numerical
