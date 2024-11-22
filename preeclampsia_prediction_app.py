@@ -1,18 +1,15 @@
 import os
 import pickle
 import streamlit as st
-from streamlit_option_menu import option_menu
 
 # Set page configuration
 st.set_page_config(page_title="Preeclampsia Prediction", layout="centered", page_icon="🧑‍⚕️")
 
 # Load the saved model
-# Ensure the model file is in the same directory as this script
 working_dir = os.path.dirname(os.path.abspath(__file__))
 preeclampsia_model = pickle.load(open(f'{working_dir}/trained_model.sav', 'rb'))
 
-
-# Create a landing page
+# Landing Page
 def landing_page():
     st.title("Welcome to the Preeclampsia Prediction Web App")
     st.subheader("Choose your role and log in to continue")
@@ -32,10 +29,8 @@ def landing_page():
         elif username == "" or password == "":
             st.error("Please enter both username and password!")
         else:
-            # Authentication logic
             if authenticate_user(role, username, password):
                 st.success(f"Welcome, {username}! You have logged in as a {role}.")
-                # Navigate to the appropriate page based on the role
                 if role == "Specialist":
                     specialist_dashboard()
                 elif role == "User":
@@ -43,23 +38,29 @@ def landing_page():
             else:
                 st.error("Invalid username or password. Please try again.")
 
-
-# Placeholder function to authenticate users
+# Authentication Function
 def authenticate_user(role, username, password):
-    # Replace this with your actual authentication logic (e.g., database lookup)
-    # Example: Hardcoded credentials for demonstration
+    # Add your personalized credentials here
     valid_credentials = {
-        "Specialist": {"username": "specialist", "password": "specialist123"},
-        "User": {"username": "user", "password": "user123"}
+        "Specialist": [
+            {"username": "specialist", "password": "specialist123"},
+            {"username": "your_name", "password": "your_password"}
+        ],
+        "User": [
+            {"username": "user", "password": "user123"}
+        ]
     }
-    return valid_credentials.get(role, {}).get("username") == username and valid_credentials.get(role, {}).get("password") == password
+    
+    # Check if the role exists and validate the username/password
+    if role in valid_credentials:
+        for user in valid_credentials[role]:
+            if user["username"] == username and user["password"] == password:
+                return True
+    return False
 
-
-# Specialist dashboard with prediction functionality
-# Specialist dashboard with additional fields for patient and specialist information
+# Specialist dashboard 
 def specialist_dashboard():
     st.title("Specialist Dashboard")
-    st.write("Input clinical results and patient details below to predict preeclampsia risk.")
 
     # Patient Information Section
     st.header("Patient Information")
@@ -165,10 +166,12 @@ def specialist_dashboard():
             preeclampsia_diagnosis = 'The person is not at risk of developing Preeclampsia'
         st.success(preeclampsia_diagnosis)
 
-# User dashboard (can also include prediction if required)
+    st.write("Input clinical results and patient details below to predict preeclampsia risk.")
+
+# User dashboard 
 def user_dashboard():
     st.title("User Dashboard")
-    st.write("Enter personal details to check your risk of preeclampsia.")
+
     age = st.text_input("Age")
     gest_age = st.text_input("Gestational Age")
     diabp = st.text_input("Diastolic Blood Pressure")
@@ -211,7 +214,8 @@ def user_dashboard():
         else:
             preeclampsia_diagnosis = 'You are not at risk of developing Preeclampsia'
         st.success(preeclampsia_diagnosis)
-
+        
+    st.write("Enter personal details to check your risk of preeclampsia.")
 
 # Run the landing page
 landing_page()
