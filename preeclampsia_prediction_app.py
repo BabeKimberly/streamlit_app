@@ -64,9 +64,8 @@ with col2:
 preeclampsia_diagnosis = ''
 
     # creating a button for Prediction
-
 if st.button('Test Results'):
-
+    try:
   # Collect user inputs
         user_input = [hb, pcv, tsh, platelet, creatinine, plgf_sflt, pp_13, glycerides,  seng,  cysc, diabetes, sp_art]
 
