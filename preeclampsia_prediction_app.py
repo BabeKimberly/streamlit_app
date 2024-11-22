@@ -15,7 +15,7 @@ preeclampsia_model = pickle.load(open(f'{working_dir}/trained_model.sav', 'rb'))
 
 #for  a sidebar navigatiom
 with st.sidebar:
-  selected = option_menu('Log in as', ['Specialist', 'Patient'], menu_icon = 'hospital-fill', icons = ['prediction', 'diagnosis', default_index=0)
+  selected = option_menu('Log in as', ['Specialist', 'Patient'], menu_icon = 'hospital-fill', icons = ['prediction', 'diagnosis'], default_index=0)
 
 #to get specialist's input data
 if selected == 'Specialist':
