@@ -55,7 +55,7 @@ with col5:
 # Add input fields in the third row of 5 columns
 col1, col2 = st.columns(2)  # Only 2 inputs for this row
 with col1:
-     = st.text_input('Is patient diabetic? (Yes/No)')
+    = st.text_input('Is patient diabetic? (Yes/No)')
     diabetes = 1 if diabetes.lower() == 'yes' else 0  # Convert categorical to numerical
 with col2:
     sp_art = st.text_input('Systolic Pulmonary Artery Pressure value')
