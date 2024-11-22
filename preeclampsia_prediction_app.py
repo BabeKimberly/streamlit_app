@@ -99,7 +99,7 @@ def preeclampsia_prediction(age, gest_age, diabp, sysbp, height, weight, bmi, fa
     fam_htn = 1 if fam_htn == 'Yes' else 0
 
   # code for Prediction
-    Pre-eclampsia_diagnosis = ''
+    Preeclampsia_diagnosis = ''
 
     # creating a button for Prediction
     if st.button('My Preeclampsia Risk Test Results'):
