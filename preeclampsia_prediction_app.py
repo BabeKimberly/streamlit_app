@@ -58,7 +58,7 @@ with col1:
     diabetes = st.text_input('Is patient diabetic? (Yes/No)')
     diabetes = 1 if diabetes.lower() == 'yes' else 0  # Convert categorical to numerical
 with col2:
-sp_art = st.text_input('Systolic Pulmonary Artery Pressure value')
+ sp_art = st.text_input('Systolic Pulmonary Artery Pressure value')
      
     # code for Prediction
 preeclampsia_diagnosis = ''
