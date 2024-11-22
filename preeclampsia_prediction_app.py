@@ -58,7 +58,7 @@ preeclampsia_diagnosis = ''
 
     # creating a button for Prediction
 
-    if st.button('Test Results'):
+  if st.button('Test Results'):
 
         user_input = [hb, pcv, tsh, platelet, creatinine, plgf_sflt, pp_13, glycerides,  seng,  cysc, diabetes, sp_art]
 
@@ -66,7 +66,7 @@ preeclampsia_diagnosis = ''
 
         preeclampsia_prediction = preeclampsia_model.predict([user_input])
 
-        if preeclampsia_prediction[0] == 1:
+  if preeclampsia_prediction[0] == 1:
             preeclampsia_diagnosis = 'The person is diabetic'
         else:
             preeclampsia_diagnosis = 'The person is not diabetic'
