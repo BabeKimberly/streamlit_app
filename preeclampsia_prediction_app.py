@@ -42,12 +42,9 @@ def landing_page():
 def authenticate_user(role, username, password):
     # Add your personalized credentials here
     valid_credentials = {
-        "Specialist": [
-            {"username": "specialist", "password": "specialist123"},
-            {"username": "KGC", "password": "KGC123"} ]
-        "User": [
-            {"username": "user", "password": "user123"}
-            {"username": "KGC", "password": "KGC123"}]
+        "Specialist": [ {"username": "specialist", "password": "specialist123"},  {"username": "KGC", "password": "KGC123"} ],
+           
+        "User": [{"username": "user", "password": "user123"}, {"username": "KGC", "password": "KGC123"}]
     }
     
     # Check if the role exists and validate the username/password
