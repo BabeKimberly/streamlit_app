@@ -80,9 +80,9 @@ if st.button('Test Results'):
 
 # Display results
 if preeclampsia_prediction[0] == 1:
-            preeclampsia_diagnosis = 'The person is diabetic'
+            preeclampsia_diagnosis = 'The person is risk of developing Preeclampsia'
 else:
-            preeclampsia_diagnosis = 'The person is not diabetic'
+            preeclampsia_diagnosis = 'The person is not at risk of developing Preeclampsia'
 
 st.success(preeclampsia_diagnosis)
 
@@ -119,11 +119,11 @@ def preeclampsia_prediction(age, gest_age, diabp, sysbp, height, weight, bmi, fa
 
       user_input = [float(x) for x in user_input]
 
-      Preeclampsia_prediction = heart_disease_model.predict([user_input])
+      Preeclampsia_prediction = preeclampsia_model.predict([user_input])
 
       if Preeclampsia_prediction[0] == 1:
-            Preeclampsia_diagnosis = 'The person is having Preeclampsia'
+            Preeclampsia_diagnosis = 'The person is at risk of developing Preeclampsia'
       else:
-            Preeclampsia_diagnosis = 'The person is not at risk of Preeclampsia'
+            Preeclampsia_diagnosis = 'The person is not at risk of developing Preeclampsia'
       st.success(Preeclampsia_diagnosis)
 
