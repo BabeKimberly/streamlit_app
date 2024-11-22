@@ -95,8 +95,8 @@ def preeclampsia_prediction(age, gest_age, diabp, sysbp, height, weight, bmi, fa
     htn = st.selectbox('Hypertension (high BP)?', ['Yes', 'No'])
 
     # Convert categorical features to numerical
-        htn = 1 if htn == 'Yes' else 0
-        fam_htn = 1 if fam_htn == 'Yes' else 0
+    htn = 1 if htn == 'Yes' else 0
+    fam_htn = 1 if fam_htn == 'Yes' else 0
 
   # code for Prediction
     Pre-eclampsia_diagnosis = ''
@@ -109,9 +109,9 @@ def preeclampsia_prediction(age, gest_age, diabp, sysbp, height, weight, bmi, fa
 
      Pre-eclampsia_prediction = heart_disease_model.predict([user_input])
 
-        if Pre-eclampsia_prediction[0] == 1:
+      if Pre-eclampsia_prediction[0] == 1:
             Pre-eclampsia_diagnosis = 'The person is having Preeclampsia'
-        else:
+      else:
             Pre-eclampsia_diagnosis = 'The person is not at risk of Preeclampsia'
         st.success(Pre-eclampsia_diagnosis)
 
