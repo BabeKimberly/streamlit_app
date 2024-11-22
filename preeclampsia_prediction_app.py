@@ -24,8 +24,8 @@ if selected == 'Specialist':
   #page title
   st.title == 'Specialist clinical results'
   
-  col1, col2, col3 = st.columns(3)
-    with col1:
+  col1, col2, col3, col4, col5 = st.columns(3)
+  with col1:
         hb = st.text_input('Hemoglobin value')
     with col2:
         pcv = st.text_input('PCV value')
