@@ -105,13 +105,13 @@ def preeclampsia_prediction(age, gest_age, diabp, sysbp, height, weight, bmi, fa
     if st.button('My Preeclampsia Risk Test Results'):
       user_input = [age, gest_age, diabp, sysbp, height, weight, bmi, fam_htn, htn]
 
-        user_input = [float(x) for x in user_input]
+      user_input = [float(x) for x in user_input]
 
-     Pre-eclampsia_prediction = heart_disease_model.predict([user_input])
+      Preeclampsia_prediction = heart_disease_model.predict([user_input])
 
-      if Pre-eclampsia_prediction[0] == 1:
-            Pre-eclampsia_diagnosis = 'The person is having Preeclampsia'
+      if Preeclampsia_prediction[0] == 1:
+            Preeclampsia_diagnosis = 'The person is having Preeclampsia'
       else:
-            Pre-eclampsia_diagnosis = 'The person is not at risk of Preeclampsia'
-        st.success(Pre-eclampsia_diagnosis)
+            Preeclampsia_diagnosis = 'The person is not at risk of Preeclampsia'
+        st.success(Preeclampsia_diagnosis)
 
