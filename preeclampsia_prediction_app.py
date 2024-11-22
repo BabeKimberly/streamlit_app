@@ -1,6 +1,7 @@
 import os
 import pickle
 import streamlit as st
+import pandas as pd
 
 # Set page configuration
 st.set_page_config(page_title="Preeclampsia Prediction", layout="centered", page_icon="🧑‍⚕️")
