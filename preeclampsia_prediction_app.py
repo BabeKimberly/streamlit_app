@@ -4,126 +4,174 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 
 # Set page configuration
-st.set_page_config(page_title="Preeclampsia prediction",
-                   layout="wide",
-                   page_icon="🧑‍⚕️")
-# getting the working directory of the main.py
-working_dir = os.path.dirname(os.path.abspath(__file__))
+st.set_page_config(page_title="Preeclampsia Prediction", layout="centered", page_icon="🧑‍⚕️")
 
 # Load the saved model
+# Ensure the model file is in the same directory as this script
+working_dir = os.path.dirname(os.path.abspath(__file__))
 preeclampsia_model = pickle.load(open(f'{working_dir}/trained_model.sav', 'rb'))
 
-#for  a sidebar navigatiom
-with st.sidebar:
-  selected = option_menu('Log in as', ['Specialist', 'Patient'], menu_icon = 'hospital-fill', icons = ['prediction', 'diagnosis'], default_index=0)
 
-#to get specialist's input data
-if selected == 'Specialist':
- 
- 
-  #page title
-  st.title == 'Specialist clinical results'
-  
-# Create 5 columns for input fields
-col1, col2, col3, col4, col5 = st.columns(5)
+# Create a landing page
+def landing_page():
+    st.title("Welcome to the Preeclampsia Prediction Web App")
+    st.subheader("Choose your role and log in to continue")
 
-# Add input fields in the first row of 5 columns
-with col1:
-    hb = st.text_input('Hemoglobin value')
-with col2:
-    pcv = st.text_input('PCV value')
-with col3:
-    tsh = st.text_input('Thyroid Stimulating Hormone')
-with col4:
-    platelet = st.text_input('Platelet count')
-with col5:
-    creatinine = st.text_input('Creatinine Levels')
+    # Role selection
+    role = st.selectbox("Log in as:", ["Select", "Specialist", "User"])
 
-# Add input fields in the second row of 5 columns
-col1, col2, col3, col4, col5 = st.columns(5)
-with col1:
-    plgf_sflt = st.text_input('plgf_sflt value')
-with col2:
-    pp_13 = st.text_input('pp_13 value')
-with col3:
-    glycerides = st.text_input('Glycerides value')
-with col4:
-    seng = st.text_input('Soluble Endoglin (sEng) value')
-with col5:
-    cysc = st.text_input('Cystatin C (cysC)')
+    # Input fields for credentials
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
 
-# Add input fields in the third row of 5 columns
-col1, col2 = st.columns(2)  # Only 2 inputs for this row
-with col1:
-    diabetes = st.text_input('Is patient diabetic? (Yes/No)')
-    diabetes = 1 if diabetes.lower() == 'yes' else 0  # Convert categorical to numerical
-with col2:
- sp_art = st.text_input('Systolic Pulmonary Artery Pressure value')
-     
-    # code for Prediction
-preeclampsia_diagnosis = ''
+    # Login button
+    if st.button("Log In"):
+        # Validate inputs
+        if role == "Select":
+            st.error("Please select a role to proceed!")
+        elif username == "" or password == "":
+            st.error("Please enter both username and password!")
+        else:
+            # Authentication logic
+            if authenticate_user(role, username, password):
+                st.success(f"Welcome, {username}! You have logged in as a {role}.")
+                # Navigate to the appropriate page based on the role
+                if role == "Specialist":
+                    specialist_dashboard()
+                elif role == "User":
+                    user_dashboard()
+            else:
+                st.error("Invalid username or password. Please try again.")
 
-    # creating a button for Prediction
-if st.button('Test Results'):
-    try:
-  # Collect user inputs
-        user_input = [hb, pcv, tsh, platelet, creatinine, plgf_sflt, pp_13, glycerides,  seng,  cysc, diabetes, sp_art]
 
-  # Convert inputs to floats (handle blank inputs gracefully)
-        user_input = [float(x) for x in user_input]
+# Placeholder function to authenticate users
+def authenticate_user(role, username, password):
+    # Replace this with your actual authentication logic (e.g., database lookup)
+    # Example: Hardcoded credentials for demonstration
+    valid_credentials = {
+        "Specialist": {"username": "specialist", "password": "specialist123"},
+        "User": {"username": "user", "password": "user123"}
+    }
+    return valid_credentials.get(role, {}).get("username") == username and valid_credentials.get(role, {}).get("password") == password
 
-        preeclampsia_prediction = preeclampsia_model.predict([user_input])
 
-#error handling incase text is put in numerical data type
-    except ValueError as e:
-        st.error(f"Invalid input: {e}")
+# Specialist dashboard with prediction functionality
+def specialist_dashboard():
+    st.title("Specialist Dashboard")
+    st.write("Input clinical results below to predict preeclampsia risk.")
+    
+    # Create 5 columns for input fields
+    col1, col2, col3, col4, col5 = st.columns(5)
 
-# Display results
-if preeclampsia_prediction[0] == 1:
-            preeclampsia_diagnosis = 'The person is risk of developing Preeclampsia'
-else:
+    # Add input fields in the first row of 5 columns
+    with col1:
+        hb = st.text_input('Hemoglobin value')
+    with col2:
+        pcv = st.text_input('PCV value')
+    with col3:
+        tsh = st.text_input('Thyroid Stimulating Hormone')
+    with col4:
+        platelet = st.text_input('Platelet count')
+    with col5:
+        creatinine = st.text_input('Creatinine Levels')
+
+    # Add input fields in the second row of 5 columns
+    col1, col2, col3, col4, col5 = st.columns(5)
+    with col1:
+        plgf_sflt = st.text_input('plgf_sflt value')
+    with col2:
+        pp_13 = st.text_input('pp_13 value')
+    with col3:
+        glycerides = st.text_input('Glycerides value')
+    with col4:
+        seng = st.text_input('Soluble Endoglin (sEng) value')
+    with col5:
+        cysc = st.text_input('Cystatin C (cysC)')
+
+    # Add input fields in the third row of 2 columns
+    col1, col2 = st.columns(2)  # Only 2 inputs for this row
+    with col1:
+        diabetes = st.text_input('Is patient diabetic? (Yes/No)')
+        diabetes = 1 if diabetes.lower() == 'yes' else 0  # Convert categorical to numerical
+    with col2:
+        sp_art = st.text_input('Systolic Pulmonary Artery Pressure value')
+
+    # Initialize prediction variables
+    preeclampsia_diagnosis = ''
+    preeclampsia_prediction = None
+
+    # Create a button for Prediction
+    if st.button('Test Results'):
+        try:
+            # Collect user inputs
+            user_input = [hb, pcv, tsh, platelet, creatinine, plgf_sflt, pp_13, 
+                          glycerides, seng, cysc, diabetes, sp_art]
+
+            # Convert inputs to floats (handle blank inputs gracefully)
+            user_input = [float(x) if x != '' else 0.0 for x in user_input]
+
+            # Prediction
+            preeclampsia_prediction = preeclampsia_model.predict([user_input])
+
+        except ValueError as e:
+            st.error(f"Invalid input: {e}")
+
+    # Display results if prediction was successful
+    if preeclampsia_prediction is not None:
+        if preeclampsia_prediction[0] == 1:
+            preeclampsia_diagnosis = 'The person is at risk of developing Preeclampsia'
+        else:
             preeclampsia_diagnosis = 'The person is not at risk of developing Preeclampsia'
+        st.success(preeclampsia_diagnosis)
 
-st.success(preeclampsia_diagnosis)
 
-def preeclampsia_prediction(age, gest_age, diabp, sysbp, height, weight, bmi, fam_htn, htn, diabetes):
-   
-  # Simple prediction logic for demonstration
- if age and int(age) > 35 and sysbp and int(sysbp) > 140 and fam_htn == "Yes":
-        return "The person is at high risk of Preeclampsia."
- return "The person is not at high risk of Preeclampsia."
-
- def main():
-    st.title('Preeclampsia Prediction Web Application')
-
-    age = st.text_input('How old are you?')
-    gest_age = st.text_input('How far along are you (Gestational age)')
-    diabp = st.text_input('Diastolic BP value (smaller BP reading)')
-    sysbp = st.text_input('Systolic BP value (larger BP reading)')
-    height = st.text_input('Height (cm)')
-    weight = st.text_input('Weight (kg)')
-    bmi = st.text_input('BMI value')
-    fam_htn = st.selectbox('Family history of Preeclampsia?', ['Yes', 'No'])
-    htn = st.selectbox('Hypertension (high BP)?', ['Yes', 'No'])
+# User dashboard (can also include prediction if required)
+def user_dashboard():
+    st.title("User Dashboard")
+    st.write("Enter personal details to check your risk of preeclampsia.")
+    age = st.text_input("Age")
+    gest_age = st.text_input("Gestational Age")
+    diabp = st.text_input("Diastolic Blood Pressure")
+    sysbp = st.text_input("Systolic Blood Pressure")
+    height = st.text_input("Height (cm)")
+    weight = st.text_input("Weight (kg)")
+    bmi = st.text_input("BMI")
+    fam_htn = st.selectbox("Family history of hypertension?", ["Yes", "No"])
+    htn = st.selectbox("History of hypertension?", ["Yes", "No"])
+    diabetes = st.selectbox("Diabetes?", ["Yes", "No"])
 
     # Convert categorical features to numerical
-    htn = 1 if htn == 'Yes' else 0
     fam_htn = 1 if fam_htn == 'Yes' else 0
+    htn = 1 if htn == 'Yes' else 0
+    diabetes = 1 if diabetes == 'Yes' else 0
 
-  # code for Prediction
-    Preeclampsia_diagnosis = ''
+    # Initialize prediction variables
+    preeclampsia_diagnosis = ''
+    preeclampsia_prediction = None
 
-    # creating a button for Prediction
-    if st.button('My Preeclampsia Risk Test Results'):
-      user_input = [age, gest_age, diabp, sysbp, height, weight, bmi, fam_htn, htn]
+    # Create a button for Prediction
+    if st.button('Calculate My Risk'):
+        try:
+            # Collect user inputs
+            user_input = [age, gest_age, diabp, sysbp, height, weight, bmi, fam_htn, htn, diabetes]
 
-      user_input = [float(x) for x in user_input]
+            # Convert inputs to floats (handle blank inputs gracefully)
+            user_input = [float(x) if x != '' else 0.0 for x in user_input]
 
-      Preeclampsia_prediction = preeclampsia_model.predict([user_input])
+            # Prediction
+            preeclampsia_prediction = preeclampsia_model.predict([user_input])
 
-      if Preeclampsia_prediction[0] == 1:
-            Preeclampsia_diagnosis = 'The person is at risk of developing Preeclampsia'
-      else:
-            Preeclampsia_diagnosis = 'The person is not at risk of developing Preeclampsia'
-      st.success(Preeclampsia_diagnosis)
+        except ValueError as e:
+            st.error(f"Invalid input: {e}")
 
+    # Display results if prediction was successful
+    if preeclampsia_prediction is not None:
+        if preeclampsia_prediction[0] == 1:
+            preeclampsia_diagnosis = 'You are at risk of developing Preeclampsia'
+        else:
+            preeclampsia_diagnosis = 'You are not at risk of developing Preeclampsia'
+        st.success(preeclampsia_diagnosis)
+
+
+# Run the landing page
+landing_page()
