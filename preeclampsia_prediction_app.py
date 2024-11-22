@@ -44,10 +44,12 @@ def authenticate_user(role, username, password):
     valid_credentials = {
         "Specialist": [
             {"username": "specialist", "password": "specialist123"},
-            {"username": "your_name", "password": "your_password"}
+            {"username": "KGC", "password": "KGC123"}
+            
         ],
         "User": [
             {"username": "user", "password": "user123"}
+            {"username": "KGC", "password": "KGC123"}
         ]
     }
     
@@ -58,7 +60,7 @@ def authenticate_user(role, username, password):
                 return True
     return False
 
-# Specialist dashboard 
+# Specialist Dashboard
 def specialist_dashboard():
     st.title("Specialist Dashboard")
 
@@ -168,7 +170,8 @@ def specialist_dashboard():
 
     st.write("Input clinical results and patient details below to predict preeclampsia risk.")
 
-# User dashboard 
+
+# User Dashboard
 def user_dashboard():
     st.title("User Dashboard")
 
@@ -217,5 +220,10 @@ def user_dashboard():
         
     st.write("Enter personal details to check your risk of preeclampsia.")
 
-# Run the landing page
+# Run the app
 landing_page()
+
+
+
+
+
