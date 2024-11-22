@@ -44,13 +44,10 @@ def authenticate_user(role, username, password):
     valid_credentials = {
         "Specialist": [
             {"username": "specialist", "password": "specialist123"},
-            {"username": "KGC", "password": "KGC123"}
-            
-        ],
+            {"username": "KGC", "password": "KGC123"} ]
         "User": [
             {"username": "user", "password": "user123"}
-            {"username": "KGC", "password": "KGC123"}
-        ]
+            {"username": "KGC", "password": "KGC123"}]
     }
     
     # Check if the role exists and validate the username/password
