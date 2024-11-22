@@ -75,15 +75,16 @@ if st.button('Test Results'):
         preeclampsia_prediction = preeclampsia_model.predict([user_input])
 
 # Display results
+except ValueError as e:
+st.error(f"Invalid input: {e}")
+
 if preeclampsia_prediction[0] == 1:
             preeclampsia_diagnosis = 'The person is diabetic'
 else:
             preeclampsia_diagnosis = 'The person is not diabetic'
 
 st.success(preeclampsia_diagnosis)
-  
-except ValueError as e:
-st.error(f"Invalid input: {e}")
+
 
 def preeclampsia_prediction(age, gest_age, diabp, sysbp, height, weight, bmi, fam_htn, htn, diabetes):
    
