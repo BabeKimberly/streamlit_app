@@ -71,7 +71,7 @@ if preeclampsia_prediction[0] == 1:
 else:
             preeclampsia_diagnosis = 'The person is not diabetic'
 
-    st.success(preeclampsia_diagnosis)
+st.success(preeclampsia_diagnosis)
   
 
 def preeclampsia_prediction(age, gest_age, diabp, sysbp, height, weight, bmi, fam_htn, htn, diabetes):
