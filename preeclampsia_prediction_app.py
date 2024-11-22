@@ -56,65 +56,106 @@ def authenticate_user(role, username, password):
 
 
 # Specialist dashboard with prediction functionality
+# Specialist dashboard with additional fields for patient and specialist information
 def specialist_dashboard():
     st.title("Specialist Dashboard")
-    st.write("Input clinical results below to predict preeclampsia risk.")
-    
-    # Create 5 columns for input fields
+    st.write("Input clinical results and patient details below to predict preeclampsia risk.")
+
+    # Patient Information Section
+    st.header("Patient Information")
+    patient_name = st.text_input("Patient's First Name", placeholder="Enter the patient's first name")
+    patient_surname = st.text_input("Patient's Surname", placeholder="Enter the patient's surname")
+    contact_number = st.text_input("Contact Number", placeholder="Enter the patient's contact number")
+    id_number = st.text_input("National ID Number", placeholder="Enter the patient's ID number")
+    hospital_number = st.text_input("Hospital Number (optional)", placeholder="Enter the hospital number (if available)")
+
+    # Validate required fields for patient information
+    if not patient_name or not patient_surname or not contact_number or not id_number:
+        st.warning("All required fields (Name, Surname, Contact Number, ID Number) must be filled!")
+
+    # Specialist Information Section
+    st.header("Specialist Information")
+    specialist_name = st.text_input("Specialist's Name", placeholder="Enter your name")
+    specialist_workplace = st.text_input("Specialist's Workplace", placeholder="Enter hospital/clinic name")
+
+    # Clinical Results Section
+    st.header("Clinical Test Results")
     col1, col2, col3, col4, col5 = st.columns(5)
 
     # Add input fields in the first row of 5 columns
     with col1:
-        hb = st.text_input('Hemoglobin value')
+        hb = st.text_input('Hemoglobin value', placeholder="Enter hemoglobin value")
     with col2:
-        pcv = st.text_input('PCV value')
+        pcv = st.text_input('PCV value', placeholder="Enter PCV value")
     with col3:
-        tsh = st.text_input('Thyroid Stimulating Hormone')
+        tsh = st.text_input('Thyroid Stimulating Hormone', placeholder="Enter TSH value")
     with col4:
-        platelet = st.text_input('Platelet count')
+        platelet = st.text_input('Platelet count', placeholder="Enter platelet count")
     with col5:
-        creatinine = st.text_input('Creatinine Levels')
+        creatinine = st.text_input('Creatinine Levels', placeholder="Enter creatinine levels")
 
-    # Add input fields in the second row of 5 columns
+    # Second row of inputs
     col1, col2, col3, col4, col5 = st.columns(5)
     with col1:
-        plgf_sflt = st.text_input('plgf_sflt value')
+        plgf_sflt = st.text_input('plgf_sflt value', placeholder="Enter plgf_sflt value")
     with col2:
-        pp_13 = st.text_input('pp_13 value')
+        pp_13 = st.text_input('pp_13 value', placeholder="Enter pp_13 value")
     with col3:
-        glycerides = st.text_input('Glycerides value')
+        glycerides = st.text_input('Glycerides value', placeholder="Enter glycerides value")
     with col4:
-        seng = st.text_input('Soluble Endoglin (sEng) value')
+        seng = st.text_input('Soluble Endoglin (sEng) value', placeholder="Enter sEng value")
     with col5:
-        cysc = st.text_input('Cystatin C (cysC)')
+        cysc = st.text_input('Cystatin C (cysC)', placeholder="Enter cystatin C value")
 
-    # Add input fields in the third row of 2 columns
-    col1, col2 = st.columns(2)  # Only 2 inputs for this row
+    # Third row of inputs
+    col1, col2 = st.columns(2)
     with col1:
-        diabetes = st.text_input('Is patient diabetic? (Yes/No)')
+        diabetes = st.text_input('Is patient diabetic? (Yes/No)', placeholder="Enter Yes or No")
         diabetes = 1 if diabetes.lower() == 'yes' else 0  # Convert categorical to numerical
     with col2:
-        sp_art = st.text_input('Systolic Pulmonary Artery Pressure value')
+        sp_art = st.text_input('Systolic Pulmonary Artery Pressure value', placeholder="Enter systolic pressure value")
 
     # Initialize prediction variables
     preeclampsia_diagnosis = ''
     preeclampsia_prediction = None
 
-    # Create a button for Prediction
+    # Validate that required patient and specialist fields are filled
     if st.button('Test Results'):
-        try:
-            # Collect user inputs
-            user_input = [hb, pcv, tsh, platelet, creatinine, plgf_sflt, pp_13, 
-                          glycerides, seng, cysc, diabetes, sp_art]
+        if not patient_name or not patient_surname or not contact_number or not id_number:
+            st.error("Please fill in all required patient information fields!")
+        elif not specialist_name or not specialist_workplace:
+            st.error("Please fill in all required specialist information fields!")
+        else:
+            try:
+                # Collect clinical test inputs
+                user_input = [hb, pcv, tsh, platelet, creatinine, plgf_sflt, pp_13, 
+                              glycerides, seng, cysc, diabetes, sp_art]
 
-            # Convert inputs to floats (handle blank inputs gracefully)
-            user_input = [float(x) if x != '' else 0.0 for x in user_input]
+                # Convert inputs to floats (handle blank inputs gracefully)
+                user_input = [float(x) if x != '' else 0.0 for x in user_input]
 
-            # Prediction
-            preeclampsia_prediction = preeclampsia_model.predict([user_input])
+                # Make prediction
+                preeclampsia_prediction = preeclampsia_model.predict([user_input])
 
-        except ValueError as e:
-            st.error(f"Invalid input: {e}")
+            except ValueError as e:
+                st.error(f"Invalid input: {e}")
+
+    # Display results if prediction was successful
+    if preeclampsia_prediction is not None:
+        if preeclampsia_prediction[0] == 1:
+            preeclampsia_diagnosis = 'The person is at risk of developing Preeclampsia'
+        else:
+            preeclampsia_diagnosis = 'The person is not at risk of developing Preeclampsia'
+        
+        # Display success message with patient and specialist details
+        st.success(preeclampsia_diagnosis)
+        st.write(f"**Patient Name**: {patient_name} {patient_surname}")
+        st.write(f"**Contact Number**: {contact_number}")
+        st.write(f"**ID Number**: {id_number}")
+        if hospital_number:
+            st.write(f"**Hospital Number**: {hospital_number}")
+        st.write(f"**Specialist**: {specialist_name}")
+        st.write(f"**Workplace**: {specialist_workplace}")
 
     # Display results if prediction was successful
     if preeclampsia_prediction is not None:
@@ -123,7 +164,6 @@ def specialist_dashboard():
         else:
             preeclampsia_diagnosis = 'The person is not at risk of developing Preeclampsia'
         st.success(preeclampsia_diagnosis)
-
 
 # User dashboard (can also include prediction if required)
 def user_dashboard():
